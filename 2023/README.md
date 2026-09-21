@@ -10,6 +10,7 @@
 - [Day 6: Wait For It](https://adventofcode.com/2023/day/6)
 - [Day 7: Camel Cards](https://adventofcode.com/2023/day/7)
 - [Day 8: Haunted Wasteland](https://adventofcode.com/2023/day/8)
+- [Day 9: Mirage Maintenance](https://adventofcode.com/2023/day/9)
 
 ## Runtimes
 
