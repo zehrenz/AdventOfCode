@@ -25,10 +25,7 @@ int calculateNext(List<int> layer) {
   if (layer.every((val) => val == 0)) {
     return 0;
   }
-  var diffs = <int>[];
-  for (var i = 1; i < layer.length; i++) {
-    diffs.add(layer[i] - layer[i - 1]);
-  }
+  var diffs = List.generate(layer.length - 1, (i) => layer[i + 1] - layer[i]);
   return layer.last + calculateNext(diffs);
 }
 
@@ -44,9 +41,6 @@ int calculatePrev(List<int> layer) {
   if (layer.every((val) => val == 0)) {
     return 0;
   }
-  var diffs = <int>[];
-  for (var i = 1; i < layer.length; i++) {
-    diffs.add(layer[i] - layer[i - 1]);
-  }
+  var diffs = List.generate(layer.length - 1, (i) => layer[i + 1] - layer[i]);
   return layer.first - calculatePrev(diffs);
 }
