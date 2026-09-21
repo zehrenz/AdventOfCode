@@ -33,5 +33,20 @@ int calculateNext(List<int> layer) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  var total = 0;
+  for (var layer in input) {
+    total += calculatePrev(layer);
+  }
+  return total.toString();
+}
+
+int calculatePrev(List<int> layer) {
+  if (layer.every((val) => val == 0)) {
+    return 0;
+  }
+  var diffs = <int>[];
+  for (var i = 1; i < layer.length; i++) {
+    diffs.add(layer[i] - layer[i - 1]);
+  }
+  return layer.first - calculatePrev(diffs);
 }
