@@ -1,17 +1,16 @@
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
-enum Part { ONE, TWO }
-
 import 'package:utils/dart_utils.dart';
+
+enum Part { ONE, TWO }
 
 const String DAY = '{day_num}';
 void main() {
   if (DAY.isEmpty) {
     throw Exception("Please set the DAY constant to the day being tested.");
   }
-  for (var (part, file, expected) in [
-    (Part.ONE, 'A', "")])
+  for (var (part, file, expected) in [(Part.ONE, 'A', "")])
     group("Check sample input $file passes for part", () {
       late var input;
       setUp(() {
