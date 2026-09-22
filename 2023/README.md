@@ -13,6 +13,11 @@
 - [Day 9: Mirage Maintenance](https://adventofcode.com/2023/day/9)
 - [Day 10: Pipe Maze](https://adventofcode.com/2023/day/10)
 - [Day 11: Cosmic Expansion](https://adventofcode.com/2023/day/11)
+- [Day 13: Point of Incidence](https://adventofcode.com/2023/day/13)
+
+## Incomplete
+
+- Day 12
 
 ## Needs extra attention
 
@@ -26,16 +31,16 @@ The following table has been run as an average of 3 runs.
 
 Legend: 🟢 < 1ms, 🟡 < 1s, 🔴 >= 1s
 
-| Day  |   Parse | Part 1 |  Part 2 |   Total |
-| ---- | ------: | -----: | ------: | ------: |
-| 01🟡 |   175µs |  562µs | 1.112ms | 1.849ms |
-| 02🟢 |   469µs |   12µs |    10µs |   491µs |
-| 03🟡 |   545µs |  406µs |   400µs | 1.351ms |
-| 04🟡 | 2.213ms |  303µs |   668µs | 3.184ms |
-| 05🟡 |   689µs |  464µs |   433µs | 1.586ms |
-| 06🟢 |    46µs |    9µs |     4µs |    59µs |
-| 07🟡 |  1.16ms |  543µs |   496µs | 2.199ms |
-| 08🟢 |   427µs |   76µs |   347µs |   850µs |
-| 09🟡 |   507µs |  507µs |   335µs | 1.349ms |
-| 10🟡 | 62µs | 404µs | 1.135ms | 1.601ms |
-| 11🟡 | 186µs | 5.541ms | 5.542ms | 11.27ms |
+| Day  |   Parse |  Part 1 |  Part 2 |   Total |
+| ---- | ------: | ------: | ------: | ------: |
+| 01🟡 |   175µs |   562µs | 1.112ms | 1.849ms |
+| 02🟢 |   469µs |    12µs |    10µs |   491µs |
+| 03🟡 |   545µs |   406µs |   400µs | 1.351ms |
+| 04🟡 | 2.213ms |   303µs |   668µs | 3.184ms |
+| 05🟡 |   689µs |   464µs |   433µs | 1.586ms |
+| 06🟢 |    46µs |     9µs |     4µs |    59µs |
+| 07🟡 |  1.16ms |   543µs |   496µs | 2.199ms |
+| 08🟢 |   427µs |    76µs |   347µs |   850µs |
+| 09🟡 |   507µs |   507µs |   335µs | 1.349ms |
+| 10🟡 |    62µs |   404µs | 1.135ms | 1.601ms |
+| 11🟡 |   186µs | 5.541ms | 5.542ms | 11.27ms |
