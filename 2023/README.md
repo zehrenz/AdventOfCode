@@ -12,6 +12,7 @@
 - [Day 8: Haunted Wasteland](https://adventofcode.com/2023/day/8)
 - [Day 9: Mirage Maintenance](https://adventofcode.com/2023/day/9)
 - [Day 10: Pipe Maze](https://adventofcode.com/2023/day/10)
+- [Day 11: Cosmic Expansion](https://adventofcode.com/2023/day/11)
 
 ## Needs extra attention
 
@@ -37,3 +38,4 @@ Legend: 🟢 < 1ms, 🟡 < 1s, 🔴 >= 1s
 | 08🟢 |   427µs |   76µs |   347µs |   850µs |
 | 09🟡 |   507µs |  507µs |   335µs | 1.349ms |
 | 10🟡 | 62µs | 404µs | 1.135ms | 1.601ms |
+| 11🟡 | 186µs | 5.541ms | 5.542ms | 11.27ms |
