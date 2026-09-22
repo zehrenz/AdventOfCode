@@ -29,35 +29,41 @@ InputType parseInput(String input) {
 String solvePart1(InputType input) {
   var score = 0;
   for (var grid in input) {
-    // Example logic for counting reflections, replace with actual logic
-    var gridScore = 0;
-    for (var col = 1; col < grid.width; col++) {
-      if (hasHorizontalReflectionAt(grid, col)) {
-        gridScore += col;
-        break;
-      }
-    }
-    if (gridScore != 0) {
-      score += gridScore;
-      continue;
-    }
-    ;
-    for (var row = 1; row < grid.height; row++) {
-      if (hasVerticalReflectionAt(grid, row)) {
-        score += row * 100;
-        break;
-      }
-    }
+    score += scoreGrid(grid);
   }
 
   return score.toString();
 }
 
 String solvePart2(InputType input) {
-  return "";
+  var score = 0;
+  for (var grid in input) {
+    score += scoreGrid(grid, 1);
+  }
+
+  return score.toString();
 }
 
-bool hasHorizontalReflectionAt(Grid<bool> grid, int reflectionCol) {
+int scoreGrid(Grid<bool> grid, [int smudges = 0]) {
+  for (var col = 1; col < grid.width; col++) {
+    if (hasHorizontalReflectionAt(grid, col, smudges)) {
+      return col;
+    }
+  }
+  for (var row = 1; row < grid.height; row++) {
+    if (hasVerticalReflectionAt(grid, row, smudges)) {
+      return row * 100;
+    }
+  }
+  throw Exception("No reflection found for the grid");
+}
+
+bool hasHorizontalReflectionAt(
+  Grid<bool> grid,
+  int reflectionCol, [
+  int smudges = 0,
+]) {
+  var smudgeCount = 0;
   var startCol = max(0, reflectionCol - (grid.width - reflectionCol));
   for (var col = startCol; col < reflectionCol; col++) {
     for (var row = 0; row < grid.height; row++) {
@@ -65,14 +71,22 @@ bool hasHorizontalReflectionAt(Grid<bool> grid, int reflectionCol) {
       var reflectedCol = 2 * reflectionCol - col - 1;
       var reflection = grid.get(reflectedCol, row);
       if (grid.get(col, row) != reflection) {
-        return false;
+        smudgeCount++;
+        if (smudgeCount > smudges) {
+          return false;
+        }
       }
     }
   }
-  return true;
+  return smudgeCount == smudges;
 }
 
-bool hasVerticalReflectionAt(Grid<bool> grid, int reflectionRow) {
+bool hasVerticalReflectionAt(
+  Grid<bool> grid,
+  int reflectionRow, [
+  int smudges = 0,
+]) {
+  var smudgeCount = 0;
   var startRow = max(0, reflectionRow - (grid.height - reflectionRow));
   for (var row = startRow; row < reflectionRow; row++) {
     for (var col = 0; col < grid.width; col++) {
@@ -80,9 +94,12 @@ bool hasVerticalReflectionAt(Grid<bool> grid, int reflectionRow) {
       var reflectedRow = 2 * reflectionRow - row - 1;
       var reflection = grid.get(col, reflectedRow);
       if (grid.get(col, row) != reflection) {
-        return false;
+        smudgeCount++;
+        if (smudgeCount > smudges) {
+          return false;
+        }
       }
     }
   }
-  return true;
+  return smudgeCount == smudges;
 }
