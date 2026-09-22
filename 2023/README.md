@@ -23,6 +23,7 @@
 ## Needs extra attention
 
 - Day 10
+- Day 14: Switch to finding a rock for a hole instead of a hole for a rock
 
 ## Runtimes
 
@@ -45,5 +46,5 @@ Legend: 🟢 < 1ms, 🟡 < 1s, 🔴 >= 1s
 | 09🟡 |   507µs |   507µs |   335µs | 1.349ms |
 | 10🟡 |    62µs |   404µs | 1.135ms | 1.601ms |
 | 11🟡 |   186µs | 5.541ms | 5.542ms | 11.27ms |
-| 13🟢 | 348µs | 47µs | 65µs | 460µs |
-| 14🟡 | 211µs | 301µs | 134ms | 134.5ms |
+| 13🟢 |   348µs |    47µs |    65µs |   460µs |
+| 14🟡 |   211µs |   301µs |   134ms | 134.5ms |
