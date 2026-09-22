@@ -3,6 +3,10 @@ import 'package:utils/data_structures/grid_base.dart';
 class SparseGrid<T> extends GridBase<T> {
   final _grid = <int, Map<int, T>>{};
   final T defaultValue;
+  int? minX;
+  int? maxX;
+  int? minY;
+  int? maxY;
 
   SparseGrid(this.defaultValue);
   @override
@@ -15,37 +19,26 @@ class SparseGrid<T> extends GridBase<T> {
   void set(int x, int y, T value) {
     if (!_grid.containsKey(x)) _grid[x] = {};
     _grid[x]![y] = value;
+    if (minX == null || x < minX!) minX = x;
+    if (maxX == null || x > maxX!) maxX = x;
+    if (minY == null || y < minY!) minY = y;
+    if (maxY == null || y > maxY!) maxY = y;
+  }
+
+  bool isInBounds(int x, int y) {
+    if (_grid.isEmpty) return false;
+    return x >= minX! && x <= maxX! && y >= minY! && y <= maxY!;
   }
 
   @override
   int get width {
     if (_grid.isEmpty) return 0;
-    var keys = _grid.keys.iterator;
-    keys.moveNext();
-    int min = keys.current;
-    int max = keys.current;
-    while (keys.moveNext()) {
-      var x = keys.current;
-      if (x < min) min = x;
-      if (x > max) max = x;
-    }
-    return max - min + 1;
+    return maxX! - minX! + 1;
   }
 
   @override
   int get height {
     if (_grid.isEmpty) return 0;
-    int? min;
-    int? max;
-    for (var x in _grid.keys) {
-      for (var y in _grid[x]!.keys) {
-        min ??= y;
-        max ??= y;
-        if (y < min) min = y;
-        if (y > max) max = y;
-      }
-    }
-    if (min == null || max == null) return 0;
-    return max - min + 1;
+    return maxY! - minY! + 1;
   }
 }

@@ -60,6 +60,16 @@ class GrowableGrid<T> extends GridBase<T> {
   int get width => xLength;
   int get height => yLength;
 
+  bool isInBounds(int x, int y) {
+    if (!_allowNegative && (x < 0 || y < 0)) return false;
+    final xActual = x - _xOffset;
+    final yActual = y - _yOffset;
+    return xActual >= 0 &&
+        xActual < xLength &&
+        yActual >= 0 &&
+        yActual < yLength;
+  }
+
   Point checkAndConvert(int x, int y) {
     var xActual = x - _xOffset;
     var yActual = y - _yOffset;

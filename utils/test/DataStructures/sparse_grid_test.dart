@@ -65,5 +65,26 @@ void main() {
       expect(grid.width, 6);
       expect(grid.height, 7);
     });
+
+    test('isInBounds reflects the populated coordinate range', () {
+      final grid = SparseGrid<int>(0);
+
+      grid.set(-2, -1, 1);
+      grid.set(3, 4, 2);
+
+      expect(grid.isInBounds(-2, -1), isTrue);
+      expect(grid.isInBounds(0, 1), isTrue);
+      expect(grid.isInBounds(3, 4), isTrue);
+      expect(grid.isInBounds(-3, -1), isFalse);
+      expect(grid.isInBounds(4, 4), isFalse);
+      expect(grid.isInBounds(3, 5), isFalse);
+    });
+
+    test('isInBounds returns false for an empty grid', () {
+      final grid = SparseGrid<int>(0);
+
+      expect(grid.isInBounds(0, 0), isFalse);
+      expect(grid.isInBounds(-1, 5), isFalse);
+    });
   });
 }

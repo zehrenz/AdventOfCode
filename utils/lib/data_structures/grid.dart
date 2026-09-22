@@ -32,6 +32,8 @@ class Grid<T> extends GridBase<T> with Iterable<T> {
   T get(int x, int y) => _grid[y][x];
   void set(int x, int y, T value) => _grid[y][x] = value;
 
+  bool isInBounds(int x, int y) => x >= 0 && x < width && y >= 0 && y < height;
+
   @override
   Iterator<T> get iterator => _grid.expand((row) => row).iterator;
 

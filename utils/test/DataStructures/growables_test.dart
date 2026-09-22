@@ -35,6 +35,17 @@ void main() {
       expect(grid.get(0, 0), '.');
     });
 
+    test('isInBounds respects the configured offset bounds', () {
+      final grid = GrowableGrid<int>((x, y) => 0, 3, 5, -2, 1);
+
+      expect(grid.isInBounds(3, -2), isTrue);
+      expect(grid.isInBounds(5, 1), isTrue);
+      expect(grid.isInBounds(2, -2), isFalse);
+      expect(grid.isInBounds(6, 2), isFalse);
+      expect(grid.isInBounds(3, 0), isTrue);
+      expect(grid.isInBounds(0, -3), isFalse);
+    });
+
     test('grows to positive x and y and keeps previous values', () {
       final grid = GrowableGrid<int>((x, y) => 0);
 
