@@ -13,6 +13,10 @@
 - [Day 9: Mirage Maintenance](https://adventofcode.com/2023/day/9)
 - [Day 10: Pipe Maze](https://adventofcode.com/2023/day/10)
 
+## Needs extra attention
+
+- Day 10
+
 ## Runtimes
 
 Total year runtime: 0µs
@@ -32,4 +36,4 @@ Legend: 🟢 < 1ms, 🟡 < 1s, 🔴 >= 1s
 | 07🟡 |  1.16ms |  543µs |   496µs | 2.199ms |
 | 08🟢 |   427µs |   76µs |   347µs |   850µs |
 | 09🟡 |   507µs |  507µs |   335µs | 1.349ms |
-| 10🟡 | 27µs | 315µs | 1.123ms | 1.465ms |
+| 10🟡 | 62µs | 404µs | 1.135ms | 1.601ms |

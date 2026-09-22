@@ -28,12 +28,12 @@ String solvePart1(InputType input) {
   Point start = input.start;
   List<String> map = input.map;
   var startPipe = map[start.y][start.x];
-  Direction currentDirection = getStartDirection(startPipe);
+  Point currentDirection = getStartDirection(startPipe);
   int pipeLen = 1;
   Point currentPoint = start;
 
   while (true) {
-    currentPoint = getNextPoint(currentPoint, currentDirection);
+    currentPoint = currentPoint + currentDirection;
     if (currentPoint == start) break;
     pipeLen++;
     currentDirection = getNextDirection(
@@ -49,7 +49,7 @@ String solvePart2(InputType input) {
   Point start = input.start;
   List<String> map = input.map;
   var startPipe = map[start.y][start.x];
-  Direction currentDirection = getStartDirection(startPipe);
+  Point currentDirection = getStartDirection(startPipe);
   int pipeLen = 0;
   Point currentPoint = start;
   List<List<int>> typeMap = List.generate(
@@ -58,7 +58,7 @@ String solvePart2(InputType input) {
   );
 
   do {
-    currentPoint = getNextPoint(currentPoint, currentDirection);
+    currentPoint = currentPoint + currentDirection;
     currentDirection = getNextDirection(
       currentDirection,
       map[currentPoint.y][currentPoint.x],
@@ -70,28 +70,20 @@ String solvePart2(InputType input) {
   var totalFill = 0;
   // *all mentions of normal refer to one turn clockwise
   do {
-    var normal = getNormal(currentDirection); // Get normal direciton
-    var normalPoint = getNextPoint(
-      currentPoint,
-      normal,
-    ); // Get point in that direction
+    var normal = currentDirection.rotateClockwise();
+    var normalPoint = currentPoint + normal; // Get point in that direction
     if (typeMap[normalPoint.y][normalPoint.x] == 0)
       totalFill += fillSpace(
         typeMap,
         normalPoint,
       ); // If it isn't pipe, fill that space with 1s
-    currentPoint = getNextPoint(
-      currentPoint,
-      currentDirection,
-    ); // Get the next point on the pipe
+    currentPoint =
+        currentPoint + currentDirection; // Get the next point on the pipe
     var newPipe = map[currentPoint.y][currentPoint.x];
     if (!(newPipe == "|" || newPipe == "-")) {
       // If it's an angle, we need to check the normal before and after changing direction
-      normal = getNormal(currentDirection); // Get normal direciton
-      normalPoint = getNextPoint(
-        currentPoint,
-        normal,
-      ); // Get point in that direction
+      normal = currentDirection.rotateClockwise(); // Get normal direciton
+      normalPoint = currentPoint + normal; // Get point in that direction
       if (typeMap[normalPoint.y][normalPoint.x] == 0)
         totalFill += fillSpace(
           typeMap,
@@ -147,61 +139,23 @@ int fillSpace(List<List<int>> map, Point point) {
   return filled;
 }
 
-Point getNextPoint(Point start, Direction d) {
-  int row = 0, col = 0;
-  switch (d) {
-    case Direction.UP:
-      {
-        row = -1;
-      }
-    case Direction.DOWN:
-      {
-        row = 1;
-      }
-    case Direction.LEFT:
-      {
-        col = -1;
-      }
-    case Direction.RIGHT:
-      {
-        col = 1;
-      }
-  }
-  return Point(start.x + col, start.y + row);
-}
-
-Direction getNextDirection(Direction current, String pipe) {
+Point getNextDirection(Point current, String pipe) {
   switch (pipe) {
-    case "|":
-      return current == Direction.UP ? Direction.UP : Direction.DOWN;
-    case "-":
-      return current == Direction.LEFT ? Direction.LEFT : Direction.RIGHT;
     case "F":
-      return current == Direction.UP ? Direction.RIGHT : Direction.DOWN;
+      return current == Point.up ? Point.right : Point.down;
     case "7":
-      return current == Direction.UP ? Direction.LEFT : Direction.DOWN;
+      return current == Point.up ? Point.left : Point.down;
     case "L":
-      return current == Direction.DOWN ? Direction.RIGHT : Direction.UP;
+      return current == Point.down ? Point.right : Point.up;
+    case "J":
+      return current == Point.down ? Point.left : Point.up;
     default:
-      return current == Direction.DOWN ? Direction.LEFT : Direction.UP;
+      return current;
   }
 }
 
-Direction getNormal(Direction d) {
-  switch (d) {
-    case Direction.UP:
-      return Direction.RIGHT;
-    case Direction.RIGHT:
-      return Direction.DOWN;
-    case Direction.DOWN:
-      return Direction.LEFT;
-    case Direction.LEFT:
-      return Direction.UP;
-  }
-}
-
-Direction getStartDirection(String startPipe) {
-  return startPipe == "F" || startPipe == "7" ? Direction.DOWN : Direction.UP;
+Point getStartDirection(String startPipe) {
+  return startPipe == "F" || startPipe == "7" ? Point.down : Point.up;
 }
 
 String getStartActual(Point start, List<String> map) {
@@ -240,5 +194,3 @@ String letterToAngle(String letter) {
       return letter;
   }
 }
-
-enum Direction { UP, DOWN, LEFT, RIGHT }
