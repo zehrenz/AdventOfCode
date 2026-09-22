@@ -1,3 +1,5 @@
+import 'package:utils/data_structures/grid.dart' show Grid;
+
 import '../bin/day14.dart' hide main;
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
@@ -40,5 +42,22 @@ void main() {
     test("2", () {
       expect(solvePart2(input), part2Answer);
     }, skip: part2Answer.isEmpty);
+  });
+
+  group("Test tilt going", () {
+    for (var (direction, expectedEnd) in [
+      (Point.up, Point(1, 0)),
+      (Point.down, Point(1, 2)),
+      (Point.left, Point(0, 1)),
+      (Point.right, Point(2, 1)),
+    ]) {
+      test("Tilt $direction", () {
+        var grid = Grid<int>((_, _) => 0, 3, 3);
+        grid.set(1, 1, 1);
+        tilt(grid, direction);
+        // The rock should move to the edge in the given direction
+        expect(grid.getPoint(expectedEnd), 1);
+      });
+    }
   });
 }
