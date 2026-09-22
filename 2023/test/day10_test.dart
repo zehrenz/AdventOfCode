@@ -5,16 +5,19 @@ import 'package:test/scaffolding.dart';
 import 'package:utils/dart_utils.dart';
 
 const String DAY = '10';
+
+enum Part { ONE, TWO }
+
 void main() {
   if (DAY.isEmpty) {
     throw Exception("Please set the DAY constant to the day being tested.");
   }
-  for (var (file, p1, p2) in [
-    ('A', "4", ""),
-    ('B', "8", ""),
-    ('C', "", "4"),
-    ('D', "", "8"),
-    ('E', "", "10"),
+  for (var (part, file, expected) in [
+    (Part.ONE, 'A', "4"),
+    (Part.ONE, 'B', "8"),
+    (Part.TWO, 'C', "4"),
+    (Part.TWO, 'D', "8"),
+    (Part.TWO, 'E', "10"),
   ])
     group("Check sample input $file passes for part", () {
       late var input;
@@ -23,12 +26,12 @@ void main() {
           Utils.readToString('../test_inputs/day$DAY-$file.txt'),
         );
       });
-      test("1", () {
-        expect(solvePart1(input), p1.toString());
-      }, skip: p1.isEmpty);
-      test("2", () {
-        expect(solvePart2(input), p2.toString());
-      }, skip: p2.isEmpty);
+      test(part == Part.ONE ? "1" : "2", () {
+        if (part == Part.ONE)
+          expect(solvePart1(input), expected.toString());
+        else
+          expect(solvePart2(input), expected.toString());
+      });
     });
 
   group("Check actual input passes for part", () {
