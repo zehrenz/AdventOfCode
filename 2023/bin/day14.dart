@@ -28,7 +28,23 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  int cycleCount = 1000000000;
+  List<String> hashes = [];
+  var loopStart = -1;
+  while (loopStart == -1) {
+    runCycle(input);
+    var hash = hashGrid(input);
+    if (hashes.contains(hash)) {
+      loopStart = hashes.indexOf(hash);
+    }
+    hashes.add(hash);
+  }
+  hashes.removeLast();
+
+  var inLoop = cycleCount - 1 - loopStart;
+  var remainder = inLoop % (hashes.length - loopStart);
+  var finalHash = hashes[loopStart + remainder];
+  return calculateLoadFromHash(finalHash).toString();
 }
 
 void tilt(Grid<int> grid, Point direction) {
@@ -80,4 +96,50 @@ int calulateLoad(Grid<int> grid) {
     }
   }
   return load;
+}
+
+int calculateLoadFromHash(String hash) {
+  int load = 0;
+  var rows = hash.split('|');
+  for (var rowIndex = 0; rowIndex < rows.length; rowIndex++) {
+    var row = rows[rowIndex];
+    for (var match in RegExp(r'(R|E)(\d+)').allMatches(row)) {
+      var type = match.group(1);
+      if (type == 'E') continue;
+      var count = int.parse(match.group(2)!);
+      load += (rows.length - rowIndex) * count;
+    }
+  }
+  return load;
+}
+
+void runCycle(Grid<int> grid) {
+  tilt(grid, Point.up);
+  tilt(grid, Point.left);
+  tilt(grid, Point.down);
+  tilt(grid, Point.right);
+}
+
+String hashGrid(Grid<int> grid) {
+  var lines = <String>[];
+  for (int row = 0; row < grid.height; row++) {
+    var hash = StringBuffer();
+    var prevIsRock = grid.get(0, row) == 1;
+    var spree = 1;
+    for (int col = 1; col < grid.width; col++) {
+      var current = grid.get(col, row) == 1;
+      if (current == prevIsRock) {
+        spree++;
+      } else {
+        hash.write(prevIsRock ? 'R' : 'E');
+        hash.write(spree);
+        spree = 1;
+        prevIsRock = current;
+      }
+    }
+    hash.write(prevIsRock ? 'R' : 'E');
+    hash.write(spree);
+    lines.add(hash.toString());
+  }
+  return lines.join('|');
 }

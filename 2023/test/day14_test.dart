@@ -13,7 +13,10 @@ void main() {
   if (DAY.isEmpty) {
     throw Exception("Please set the DAY constant to the day being tested.");
   }
-  for (var (part, file, expected) in [(Part.ONE, 'A', "136")])
+  for (var (part, file, expected) in [
+    (Part.ONE, 'A', "136"),
+    (Part.TWO, 'A', "64"),
+  ])
     group("Check sample input $file passes for part", () {
       late var input;
       setUp(() {
@@ -35,7 +38,7 @@ void main() {
       input = parseInput(Utils.readToString('../inputs/day$DAY.txt'));
     });
     const part1Answer = "108826";
-    const part2Answer = "";
+    const part2Answer = "99291";
     test("1", () {
       expect(solvePart1(input), part1Answer);
     }, skip: part1Answer.isEmpty);
@@ -57,6 +60,19 @@ void main() {
         tilt(grid, direction);
         // The rock should move to the edge in the given direction
         expect(grid.getPoint(expectedEnd), 1);
+      });
+    }
+  });
+
+  group("Test calculateLoadFromHash", () {
+    for (var (hash, expectedLoad) in [
+      ("R1E1R1", 2),
+      ("E2R1", 1),
+      ("R11E2R1", 12),
+      ("E1R1E1|R1E2", 3),
+    ]) {
+      test("Hash $hash", () {
+        expect(calculateLoadFromHash(hash), expectedLoad);
       });
     }
   });
