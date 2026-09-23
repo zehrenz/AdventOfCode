@@ -3,4 +3,5 @@ export 'algorithms/bfs.dart' show bfs, bfsAllPairs;
 export 'algorithms/binary_search.dart' show binarySearch, binarySearchInt;
 export 'algorithms/factors.dart'
     show leastCommonMultiple, greatestCommonDivisor;
+export 'algorithms/flood_fill.dart' show floodFill;
 export 'algorithms/traveling_salesman.dart' show travelingSalesman;
