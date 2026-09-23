@@ -118,6 +118,18 @@ class GrowableGrid<T> extends GridBase<T> {
       );
     }
   }
+
+  @override
+  String toString() {
+    return printString();
+  }
+
+  String printString([String Function(T value)? converter]) {
+    converter ??= (value) => value.toString();
+    return _grid
+        .map((row) => row.map((value) => converter!(value)).join(' '))
+        .join('\n');
+  }
 }
 
 class GrowableList<T> {
