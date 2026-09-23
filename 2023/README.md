@@ -16,6 +16,7 @@
 - [Day 13: Point of Incidence](https://adventofcode.com/2023/day/13)
 - [Day 14: Parabolic Reflector Dish](https://adventofcode.com/2023/day/14)
 - [Day 15: Lens Library](https://adventofcode.com/2023/day/15)
+- [Day 16: The Floor Will Be Lava](https://adventofcode.com/2023/day/16)
 
 ## Incomplete
 
