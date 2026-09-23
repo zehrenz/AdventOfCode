@@ -115,6 +115,44 @@ void main() {
       expect(queue.contains('missing'), isFalse);
     });
 
+    test('remove deletes values from the front, middle, and end', () {
+      final queue = Queue<int>();
+      queue.pushAll([10, 20, 30, 40]);
+
+      expect(queue.remove(10), isTrue);
+      expect(queue.remove(30), isTrue);
+      expect(queue.remove(40), isTrue);
+
+      expect(queue.length, 1);
+      expect(queue.pop(), 20);
+      expect(queue.isEmpty, isTrue);
+    });
+
+    test('remove returns false when value is absent or queue is empty', () {
+      final queue = Queue<int>();
+      expect(queue.remove(99), isFalse);
+
+      queue.pushAll([1, 2, 3]);
+      expect(queue.remove(99), isFalse);
+      expect(queue.remove(1), isTrue);
+      expect(queue.remove(99), isFalse);
+    });
+
+    test('iterator yields queue values in insertion order', () {
+      final queue = Queue<int>();
+      queue.pushAll([1, 2, 3, 4]);
+
+      expect(queue.toList(), [1, 2, 3, 4]);
+    });
+
+    test('indexed yields values with their indices', () {
+      final queue = Queue<int>();
+      queue.pushAll([5, 10, 15]);
+
+      final indexed = queue.indexed.toList();
+      expect(indexed, [(0, 5), (1, 10), (2, 15)]);
+    });
+
     test('pop and popFromBack throw on empty queue', () {
       final queue = Queue<int>();
 

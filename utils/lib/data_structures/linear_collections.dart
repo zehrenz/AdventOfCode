@@ -137,7 +137,7 @@ class Stack<T> {
   }
 }
 
-class Queue<T> {
+class Queue<T> extends Iterable<T> {
   int _size;
   int get length => _size;
 
@@ -204,7 +204,9 @@ class Queue<T> {
     return val;
   }
 
-  bool contains(T value) {
+  bool contains(Object? value) {
+    if (value == null) return false;
+    if (!(value is T)) return false;
     if (length == 0) return false;
     var current = _start;
     while (current != null) {
@@ -212,6 +214,47 @@ class Queue<T> {
       current = current.next;
     }
     return false;
+  }
+
+  bool remove(T value) {
+    return removeWhere((v) => v == value);
+  }
+
+  bool removeWhere(bool test(T value)) {
+    if (_size == 0) return false;
+    var current = _start;
+    bool removed = false;
+    while (current != null) {
+      if (test(current.value)) {
+        var toRemove = current;
+        current = current.next;
+        if (toRemove.prev != null) {
+          toRemove.prev!.next = toRemove.next;
+        } else {
+          _start = toRemove.next;
+        }
+        if (toRemove.next != null) {
+          toRemove.next!.prev = toRemove.prev;
+        } else {
+          _end = toRemove.prev;
+        }
+        _size--;
+        removed = true;
+      } else {
+        current = current.next;
+      }
+    }
+    return removed;
+  }
+
+  @override
+  Iterator<T> get iterator => _QueueIterator(_end);
+
+  Iterable<(int, T)> get indexed sync* {
+    var index = 0;
+    for (final value in this) {
+      yield (index++, value);
+    }
   }
 
   @override
@@ -226,6 +269,28 @@ class Queue<T> {
     var str = buf.toString();
     if (_size > 0) str = str.substring(0, str.length - 1);
     return str + '}End';
+  }
+}
+
+class _QueueIterator<T> implements Iterator<T> {
+  Binode<T>? _next;
+  T? _current;
+
+  _QueueIterator(this._next);
+
+  @override
+  T get current => _current as T;
+
+  @override
+  bool moveNext() {
+    if (_next == null) {
+      _current = null;
+      return false;
+    }
+
+    _current = _next!.value;
+    _next = _next!.prev;
+    return true;
   }
 }
 
@@ -490,10 +555,18 @@ class _LinkedRingIterator<T> implements Iterator<T> {
   }
 }
 
-class Binode<T> {
+class Binode<T> implements Comparable<Binode<T>> {
   T value;
   Binode<T>? prev;
   Binode<T>? next;
 
   Binode(this.value);
+
+  @override
+  int compareTo(Binode<T> other) {
+    if (value is Comparable<T>) {
+      return (value as Comparable<T>).compareTo(other.value);
+    }
+    throw ArgumentError("Value is not comparable");
+  }
 }
