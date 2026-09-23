@@ -1,5 +1,7 @@
 // ignore_for_file: dead_code
 
+import 'dart:math';
+
 import 'package:utils/dart_utils.dart';
 import 'package:utils/data_structures.dart';
 
@@ -19,24 +21,48 @@ InputType parseInput(String input) {
 }
 
 String solvePart1(InputType input) {
+  return solveGrid(input, Ray(Point(0, 0), Point.right)).toString();
+}
+
+String solvePart2(InputType input) {
+  var maxEnergy = 0;
+  for (var row = 0; row < input.length; row++) {
+    maxEnergy = max(
+      maxEnergy,
+      solveGrid(input, Ray(Point(0, row), Point.right)),
+    );
+    maxEnergy = max(
+      maxEnergy,
+      solveGrid(input, Ray(Point(input[0].length - 1, row), Point.left)),
+    );
+  }
+  for (var col = 0; col < input[0].length; col++) {
+    maxEnergy = max(
+      maxEnergy,
+      solveGrid(input, Ray(Point(col, 0), Point.down)),
+    );
+    maxEnergy = max(
+      maxEnergy,
+      solveGrid(input, Ray(Point(col, input.length - 1), Point.up)),
+    );
+  }
+  return maxEnergy.toString();
+}
+
+int solveGrid(InputType input, Ray startRay) {
   var energized = Grid<int>(
     ((x, y) => Energy.NONE),
     input[0].length,
     input.length,
   );
   var activeRays = Queue<Ray>();
-  var startRay = Ray(Point(0, 0), Point.right);
   // Mark the first spot as energized
   activeRays.push(startRay);
   while (activeRays.isNotEmpty) {
     var ray = activeRays.pop();
     while (moveRay(ray, input, energized, activeRays)) {}
   }
-  return energized.count((val, _) => val != Energy.NONE).toString();
-}
-
-String solvePart2(InputType input) {
-  return "";
+  return energized.count((val, _) => val != Energy.NONE);
 }
 
 bool moveRay(
@@ -48,6 +74,7 @@ bool moveRay(
   var tile = input[ray.position.y][ray.position.x];
   var currentEnergy = energized.getPoint(ray.position);
   Ray? newRay;
+  bool shouldRotate = false;
   switch (tile) {
     // Mirrors
     case '\\':
@@ -68,7 +95,7 @@ bool moveRay(
           return false;
         var newRayDirection = ray.direction.rotateClockwise();
         newRay = Ray(ray.position + newRayDirection, newRayDirection);
-        ray.direction = ray.direction.rotateCounterClockwise();
+        shouldRotate = true;
       }
       break;
     case '-':
@@ -78,7 +105,7 @@ bool moveRay(
           return false;
         var newRayDirection = ray.direction.rotateClockwise();
         newRay = Ray(ray.position + newRayDirection, newRayDirection);
-        ray.direction = ray.direction.rotateCounterClockwise();
+        shouldRotate = true;
       }
       break;
     // Empty space
@@ -86,6 +113,9 @@ bool moveRay(
       break;
   }
   markSpot(ray, energized);
+  if (shouldRotate) {
+    ray.direction = ray.direction.rotateCounterClockwise();
+  }
   // If we made a new ray, check it and mark it's spot
   if (newRay != null) {
     if (isValidContinue(newRay, energized, input)) {
