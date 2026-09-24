@@ -124,5 +124,17 @@ void main() {
           expect(oddBall.containsPoint(point), isFalse);
         });
     });
+
+    group('area', () {
+      test('calculates the area of the polygon', () {
+        expect(polygon.area, 16);
+      });
+    });
+
+    group('latticeArea', () {
+      test('calculates the lattice area of the polygon', () {
+        expect(polygon.latticeArea, 25);
+      });
+    });
   });
 }

@@ -1,5 +1,6 @@
 import 'package:utils/dart_utils.dart';
 import 'package:utils/data_structures/axis_line.dart';
+import 'package:utils/dart_utils.dart' show Point;
 
 class RightPolygon {
   List<Point> points;
@@ -81,5 +82,29 @@ class RightPolygon {
       }
     }
     return false;
+  }
+
+  int get area {
+    // Use the shoelace formula to calculate the area of the polygon
+    int sum = 0;
+    for (int i = 0; i < points.length; i++) {
+      final a = points[i];
+      final b = points[(i + 1) % points.length];
+      sum += (a.x * b.y) - (a.y * b.x);
+    }
+    return sum.abs() ~/ 2;
+  }
+
+  int get latticeArea {
+    // Use Pick's theorem: A = I + B/2 - 1
+    return area + (perimeter ~/ 2) + 1;
+  }
+
+  int get perimeter {
+    int sum = 0;
+    for (var line in _lines) {
+      sum += line.length;
+    }
+    return sum;
   }
 }

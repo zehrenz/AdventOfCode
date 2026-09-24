@@ -20,6 +20,14 @@ class AxisLine {
     }
   }
 
+  int get length {
+    if (isHorizontal) {
+      return right - left;
+    } else {
+      return top - bottom;
+    }
+  }
+
   Point? intersect(AxisLine other) {
     if (isHorizontal == other.isHorizontal) {
       return null;
