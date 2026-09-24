@@ -19,6 +19,7 @@
 - [Day 16: The Floor Will Be Lava](https://adventofcode.com/2023/day/16)
 - [Day 18: Lavaduct Lagoon](https://adventofcode.com/2023/day/18)
 - [Day 19: Aplenty](https://adventofcode.com/2023/day/19)
+- [Day 20: Pulse Propagation](https://adventofcode.com/2023/day/20)
 
 ## Incomplete
 
@@ -56,3 +57,4 @@ Legend: 🟢 < 1ms, 🟡 < 1s, 🔴 >= 1s
 | 15🟡 |   126µs |    54µs | 1.133ms | 1.313ms |
 | 16🟡 |    15µs |   554µs |   107ms | 107.6ms |
 | 18🟢 |   504µs |    79µs |     0µs |   583µs |
+| 20🟡 | 67µs | 3.384ms | - | 3.451ms |
