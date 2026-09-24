@@ -1,10 +1,6 @@
 // ignore_for_file: dead_code
 
-import 'dart:math';
-
-import 'package:utils/algorithms.dart' show floodFill;
 import 'package:utils/dart_utils.dart';
-import 'package:utils/data_structures/growables.dart' show GrowableGrid;
 import 'package:utils/data_structures/right_polygon.dart' show RightPolygon;
 
 void main() {
@@ -13,14 +9,14 @@ void main() {
 }
 
 typedef InputType = List<Instruction>;
-typedef Instruction = ({Point direction, int length, List<int> rgb});
-final instRegex = RegExp(r'^([LRUD]) (\d+) \(#(..)(..)(..)\)$');
+typedef Instruction = ({Point direction, int length, String rgb});
+final instRegex = RegExp(r'^([LRUD]) (\d+) \(#(.+)\)$');
 
 InputType parseInput(String input) {
   return input.splitNewLine().map((line) {
     var match = instRegex.firstMatch(line);
     if (match == null) throw Exception("Invalid instruction format");
-    var parts = match.groups([1, 2, 3, 4, 5]);
+    var parts = match.groups([1, 2, 3]);
     return (
       direction: switch (parts[0]) {
         'L' => Point.left,
@@ -30,7 +26,7 @@ InputType parseInput(String input) {
         _ => throw Exception("Invalid direction"),
       },
       length: int.parse(parts[1]!),
-      rgb: parts.sublist(2).map((s) => int.parse(s!, radix: 16)).toList(),
+      rgb: parts[2]!,
     );
   }).toList();
 }
@@ -53,5 +49,31 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  var points = <Point>[];
+  var current = Point(0, 0);
+  points.add(current);
+  // Dig the trench
+  for (var instruction in input) {
+    var (direction, length) = decodeInstruction(instruction.rgb);
+    current += direction * length;
+    points.add(current);
+  }
+  if (points[0] != points.last)
+    throw Exception("Path does not return to starting point");
+  points.removeLast();
+  // Make a shape from the trench
+  var shape = RightPolygon(points);
+  return shape.latticeArea.toString();
+}
+
+(Point, int) decodeInstruction(String rgb) {
+  var length = int.parse(rgb.substring(0, rgb.length - 1), radix: 16);
+  var direction = switch (rgb[5]) {
+    '0' => Point.right,
+    '1' => Point.down,
+    '2' => Point.left,
+    '3' => Point.up,
+    _ => throw Exception("Invalid direction"),
+  };
+  return (direction, length);
 }
