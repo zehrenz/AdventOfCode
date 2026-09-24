@@ -20,12 +20,14 @@
 - [Day 18: Lavaduct Lagoon](https://adventofcode.com/2023/day/18)
 - [Day 19: Aplenty](https://adventofcode.com/2023/day/19)
 - [Day 20: Pulse Propagation](https://adventofcode.com/2023/day/20)
+- [Day 21: Step Counter](https://adventofcode.com/2023/day/21)
 
 ## Incomplete
 
 - Day 12
 - Day 19
 - Day 20
+- Day 21
 
 ## Needs extra attention
 
@@ -59,3 +61,4 @@ Legend: 🟢 < 1ms, 🟡 < 1s, 🔴 >= 1s
 | 16🟡 |    15µs |   554µs |   107ms | 107.6ms |
 | 18🟢 |   504µs |    79µs |     0µs |   583µs |
 | 20🟡 |    67µs | 3.384ms |       - | 3.451ms |
+| 21🟡 |   480µs | 2.256ms |       - | 2.736ms |
