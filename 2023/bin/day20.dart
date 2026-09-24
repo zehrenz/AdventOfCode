@@ -53,9 +53,9 @@ InputType parseInput(String input) {
       con.registerSender(sender);
     }
   }
-  // Any targets that don't have a corresponding module get a NoOpModule.
+  // Any targets that don't have a corresponding module get a CounterModule.
   for (var target in sendersByTarget.keys) {
-    modules.putIfAbsent(target, () => NoOpModule());
+    modules.putIfAbsent(target, () => CounterModule());
   }
   return modules;
 }
@@ -72,7 +72,13 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  var rx = input['rx'] as CounterModule;
+  int runs = 1000000000;
+  for (int i = 1; i < runs; i++) {
+    pressButton(input);
+    if (rx.low == 1) return i.toString();
+  }
+  throw ArgumentError('Condition not met within $runs runs.');
 }
 
 ({int lowCount, int highCount}) pressButton(Map<String, Module> modules) {
@@ -157,12 +163,22 @@ class ConjunctionModule extends Module {
   }
 }
 
-class NoOpModule extends Module {
-  // Output is a no-op
-  NoOpModule() : super('output', []);
+class CounterModule extends Module {
+  int low = 0, hight = 0;
+  CounterModule() : super('output', []);
 
   @override
   List<Pulse> acceptPulse(String sender, bool pulseHigh) {
+    if (pulseHigh) {
+      hight++;
+    } else {
+      low++;
+    }
     return [];
+  }
+
+  void reset() {
+    low = 0;
+    hight = 0;
   }
 }
