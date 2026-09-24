@@ -39,11 +39,11 @@ class Utils {
     stopwatch.stop();
 
     print('Parse time: ${Utils.timingString(timeParse)}');
-    if (part1Solver != null)
+    if (part1Solver != null && solutionP1.isNotEmpty)
       print(
         'Part 1 (${Utils.timingString(timeP1 - timeParse)}): ${solutionP1}',
       );
-    if (part2Solver != null)
+    if (part2Solver != null && solutionP2.isNotEmpty)
       print('Part 2 (${Utils.timingString(timeP2 - timeP1)}): ${solutionP2}');
     print('Ran in ${Utils.timingString(timeP2)}');
   }
