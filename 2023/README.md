@@ -18,6 +18,7 @@
 - [Day 15: Lens Library](https://adventofcode.com/2023/day/15)
 - [Day 16: The Floor Will Be Lava](https://adventofcode.com/2023/day/16)
 - [Day 18: Lavaduct Lagoon](https://adventofcode.com/2023/day/18)
+- [Day 19: Aplenty](https://adventofcode.com/2023/day/19)
 
 ## Incomplete
 
