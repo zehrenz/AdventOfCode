@@ -11,7 +11,8 @@ void main() {
     .#...
     .###.
     .#.#.
-    """,
+    """
+        .trim(),
     (line) => line.trim().split(''),
     (cell) => cell == '#',
   );

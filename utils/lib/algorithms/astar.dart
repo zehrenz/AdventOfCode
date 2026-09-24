@@ -37,11 +37,10 @@ List<Point>? aStar(
     for (var direction in Point.cardinals) {
       var neighbor = current + direction;
       late bool isWall;
-      try {
-        isWall = grid.get(neighbor.x, neighbor.y);
-      } catch (e) {
+      if (!grid.isPointInBounds(neighbor)) {
         continue; // Out of bounds
       }
+      isWall = grid.getPoint(neighbor);
       if (isWall || visited.contains(neighbor)) {
         continue;
       }
