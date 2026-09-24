@@ -36,20 +36,12 @@ InputType parseInput(String input) {
 }
 
 String solvePart1(InputType input) {
-  var volume = 0;
-  var grid = GrowableGrid<bool>(((_, _) => false));
   var points = <Point>[];
-  // Mark starting hole
   var current = Point(0, 0);
-  grid.setPoint(current, true);
   points.add(current);
   // Dig the trench
   for (var instruction in input) {
-    for (var i = 0; i < instruction.length; i++) {
-      current += instruction.direction;
-      grid.setPoint(current, true);
-      volume++;
-    }
+    current += instruction.direction * instruction.length;
     points.add(current);
   }
   if (points[0] != points.last)
@@ -57,22 +49,7 @@ String solvePart1(InputType input) {
   points.removeLast();
   // Make a shape from the trench
   var shape = RightPolygon(points);
-  // Find a point inside the shape
-  Point? inside;
-  var width = shape.maxX - shape.minX + 1;
-  var height = shape.maxY - shape.minY + 1;
-  var farthest = min(width, height) - 1;
-  for (var index = 0; index < farthest; index++) {
-    var p = Point(shape.minX + index, shape.minY + index);
-    if (!grid.getPoint(p) && shape.containsPoint(p)) {
-      inside = p;
-      break;
-    }
-  }
-  if (inside == null) throw Exception("No inside point found");
-  // Flood fill the grid
-  var flooded = floodFill(grid, inside.x, inside.y, true, (value) => value);
-  return (volume + flooded).toString();
+  return shape.latticeArea.toString();
 }
 
 String solvePart2(InputType input) {
