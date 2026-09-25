@@ -26,5 +26,17 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  var index = 0;
+  var steps = 0;
+  while (index >= 0 && index < input.length) {
+    var jump = input[index];
+    if (jump >= 3) {
+      input[index]--;
+    } else {
+      input[index]++;
+    }
+    index += jump;
+    steps++;
+  }
+  return steps.toString();
 }
