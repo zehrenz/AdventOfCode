@@ -33,8 +33,13 @@ String solvePart2(InputType input) {
 }
 
 int maxMinDiff(List<int> row) {
-  return row.reduce((a, b) => a > b ? a : b) -
-      row.reduce((a, b) => a < b ? a : b);
+  int min = row[0];
+  int max = row[0];
+  for (var num in row) {
+    if (num < min) min = num;
+    if (num > max) max = num;
+  }
+  return max - min;
 }
 
 int divisiblePairQuotient(List<int> row) {
