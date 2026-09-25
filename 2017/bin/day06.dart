@@ -28,7 +28,19 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  var seen = <int>[];
+  var highest = input.indexed.reduce((a, b) => a.$2 > b.$2 ? a : b).$1;
+  var reallocations = 0;
+  while (true) {
+    var index = seen.indexOf(getListHash(input));
+    if (index != -1) {
+      return (reallocations - index).toString();
+    }
+    seen.add(getListHash(input));
+    highest = reallocate(input, highest);
+    reallocations++;
+  }
+  throw Exception("No loop found");
 }
 
 int reallocate(List<int> banks, highest) {
