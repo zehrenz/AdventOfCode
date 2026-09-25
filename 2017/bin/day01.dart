@@ -24,5 +24,11 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  int sum = 0;
+  for (var i = 0; i < input.length; i++) {
+    if (input[i] == input[(i + input.length ~/ 2) % input.length]) {
+      sum += input[i];
+    }
+  }
+  return sum.toString();
 }
