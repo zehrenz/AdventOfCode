@@ -37,4 +37,9 @@ timed year day:
     dart run ./utils/bin/benchmark_day.dart {{year}} {{day}} --write
 
 install:
+    @if ! command -v lefthook >/dev/null 2>&1; then \
+        echo "Error: lefthook is not installed."; \
+        echo "Install it here: https://lefthook.dev/install/"; \
+        exit 1; \
+    fi
     dart pub get --no-example
