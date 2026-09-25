@@ -25,10 +25,28 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  int sum = 0;
+  for (var row in input) {
+    sum += divisiblePairQuotient(row);
+  }
+  return sum.toString();
 }
 
 int maxMinDiff(List<int> row) {
   return row.reduce((a, b) => a > b ? a : b) -
       row.reduce((a, b) => a < b ? a : b);
+}
+
+int divisiblePairQuotient(List<int> row) {
+  for (var i = 0; i < row.length - 1; i++) {
+    for (var j = i + 1; j < row.length; j++) {
+      if (i != j && row[i] % row[j] == 0) {
+        return row[i] ~/ row[j];
+      }
+      if (i != j && row[j] % row[i] == 0) {
+        return row[j] ~/ row[i];
+      }
+    }
+  }
+  throw Exception("No divisible pair found");
 }
