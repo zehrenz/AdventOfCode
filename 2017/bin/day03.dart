@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:utils/dart_utils.dart';
+import 'package:utils/data_structures/growables.dart';
 
 void main() {
   var rawInput = Utils.readToString("../inputs/day03.txt");
@@ -22,7 +23,40 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  var grid = GrowableGrid((_, __) => 0, -5, 5, -5, 5);
+  var position = Point(0, 0);
+  var index = 1;
+  var value = 1;
+  grid.setPoint(position, value);
+  var direction = Point.right;
+  // Walk the circle and fill in values according to the spiral sum rule
+  while (value <= input) {
+    var ringSide = getRingSideLengthForPosition(index);
+    var maxInRing = ringSide * ringSide;
+    var minInRing = (ringSide - 2) * (ringSide - 2) + 1;
+    // Last position in a ring is technically a corner, so we just move in the current direction instead
+    if (index == maxInRing) {
+      position += direction;
+    }
+    // The first step in a new ring we need to curl
+    else if (index == minInRing) {
+      direction = direction.rotateCounterClockwise();
+      position += direction;
+    }
+    // Every (ringSide - 1) steps after the minimum in the ring, we rotate for the corner
+    else if ((index - minInRing + 1) % (ringSide - 1) == 0) {
+      direction = direction.rotateCounterClockwise();
+      position += direction;
+    } else {
+      position += direction;
+    }
+    value = Point.directions
+        .map((direction) => grid.getPoint(position + direction))
+        .fold(0, (sum, val) => sum + val);
+    grid.setPoint(position, value);
+    index++;
+  }
+  return value.toString();
 }
 
 int getRingSideLengthForPosition(int position) {
