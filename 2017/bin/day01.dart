@@ -7,14 +7,20 @@ void main() {
   Utils.runWithTiming(parseInput, solvePart1, solvePart2, rawInput);
 }
 
-typedef InputType = List<String>;
+typedef InputType = List<int>;
 
 InputType parseInput(String input) {
-  return input.splitNewLine();
+  return input.characters.map((char) => int.parse(char)).toList();
 }
 
 String solvePart1(InputType input) {
-  return "";
+  int sum = 0;
+  for (var i = 0; i < input.length; i++) {
+    if (input[i] == input[(i + 1) % input.length]) {
+      sum += input[i];
+    }
+  }
+  return sum.toString();
 }
 
 String solvePart2(InputType input) {
