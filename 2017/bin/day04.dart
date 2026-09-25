@@ -18,7 +18,16 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  return input.where((line) => !hasAnagram(line)).length.toString();
+}
+
+bool hasAnagram(List<String> phrases) {
+  var seen = <String>{};
+  for (var phrase in phrases) {
+    var sorted = (phrase.split('')..sort()).join();
+    if (!seen.add(sorted)) return true;
+  }
+  return false;
 }
 
 bool hasDuplicateWords(List<String> phrases) {
