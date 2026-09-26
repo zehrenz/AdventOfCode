@@ -27,5 +27,16 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  int delay = 0;
+  while (true) {
+    bool caught = false;
+    for (var (depth, range) in input) {
+      if ((depth + delay) % (2 * (range - 1)) == 0) {
+        caught = true;
+        break;
+      }
+    }
+    if (!caught) return delay.toString();
+    delay++;
+  }
 }
