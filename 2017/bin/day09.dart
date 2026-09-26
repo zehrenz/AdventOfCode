@@ -40,5 +40,23 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  int garbageCount = 0;
+  bool inGarbage = false;
+  for (int i = 0; i < input.length; i++) {
+    var char = input[i];
+    if (inGarbage) {
+      if (char == "!") {
+        i++; // Skip the next character
+      } else if (char == ">") {
+        inGarbage = false;
+      } else {
+        garbageCount++;
+      }
+    } else {
+      if (char == "<") {
+        inGarbage = true;
+      }
+    }
+  }
+  return garbageCount.toString();
 }
