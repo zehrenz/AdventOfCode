@@ -15,3 +15,4 @@
 - [Day 11: Hex Ed](https://adventofcode.com/2017/day/11)
 - [Day 12: Digital Plumber](https://adventofcode.com/2017/day/12)
 - [Day 13: Packet Scanners](https://adventofcode.com/2017/day/13)
+- [Day 14: Disk Defragmentation](https://adventofcode.com/2017/day/14)
