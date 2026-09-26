@@ -1,5 +1,7 @@
 // ignore_for_file: dead_code
 
+import 'dart:math' show max;
+
 import 'package:utils/dart_utils.dart';
 
 void main() {
@@ -48,7 +50,14 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  var start = Point(0, 0);
+  var position = start;
+  var maxDistance = 0;
+  for (var step in input) {
+    position += step;
+    maxDistance = max(maxDistance, hexDistance(start, position));
+  }
+  return maxDistance.toString();
 }
 
 int hexDistance(Point a, Point b) {
