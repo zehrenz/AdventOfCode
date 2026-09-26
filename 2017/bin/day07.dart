@@ -48,5 +48,60 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  var root = solvePart1(input);
+  var (weights: weights, children: children) = input;
+  try {
+    var tree = TreeNode(root, weights, children);
+    tree.childWeightSum;
+  } catch (e) {
+    return (e as int).toString();
+  }
+  throw Exception("No imbalance found");
+}
+
+class TreeNode {
+  final String name;
+  final int weight;
+  final List<TreeNode> children;
+  int? _childWeightSum;
+  int get childWeightSum {
+    // Find the weight of all children. If one child has a different total weight, identify it and calculate the adjustment needed.
+    // Throw to short circuit if an imbalance is found.
+    if (_childWeightSum != null) {
+      return _childWeightSum!;
+    }
+    // Find the weight of each child.
+    var childWeights = children.map((c) => c.totalWeight).toList();
+    _childWeightSum = children.map((c) => c.totalWeight).sum();
+    if (childWeights.every((weight) => weight == childWeights.first)) {
+      // All good
+      return _childWeightSum!;
+    }
+    // Imbalance detected, calculate the adjustment needed.
+    Map<int, int> weightCounts = {};
+    // Count the occurrences of each child weight to identify the wrong one.
+    for (var w in childWeights) {
+      weightCounts.increment(w);
+    }
+    var wrongWeight = weightCounts.entries
+        .firstWhere((entry) => entry.value == 1)
+        .key;
+    var oddDuck = children.firstWhere((c) => c.totalWeight == wrongWeight);
+    var correctWeight = childWeights.firstWhere(
+      (weight) => weight != wrongWeight,
+    );
+    var expectedWeightOfOddDuck = correctWeight - oddDuck.childWeightSum;
+    throw expectedWeightOfOddDuck;
+  }
+
+  int get totalWeight => weight + childWeightSum;
+
+  TreeNode(
+    this.name,
+    Map<String, int> weights,
+    Map<String, List<String>> children,
+  ) : weight = weights[name]!,
+      children = (children[name] ?? [])
+          .map((name) => TreeNode(name, weights, children))
+          .toList();
 }

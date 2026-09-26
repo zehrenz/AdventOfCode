@@ -180,6 +180,13 @@ extension GenericIterableExtras<T> on Iterable<T> {
   }
 }
 
+extension NumIterableExtras<T extends num> on Iterable<T> {
+  T sum() {
+    if (this.isEmpty) return 0 as T;
+    return this.reduce((a, b) => (a + b) as T);
+  }
+}
+
 extension ListExtras on List<List<dynamic>> {
   void printFlat([String formatter(dynamic element) = _toString]) {
     StringBuffer s = StringBuffer();
