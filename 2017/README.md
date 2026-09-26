@@ -13,3 +13,4 @@
 - [Day 9: Stream Processing](https://adventofcode.com/2017/day/9)
 - [Day 10: Knot Hash](https://adventofcode.com/2017/day/10)
 - [Day 11: Hex Ed](https://adventofcode.com/2017/day/11)
+- [Day 12: Digital Plumber](https://adventofcode.com/2017/day/12)
