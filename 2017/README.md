@@ -11,3 +11,4 @@
 - [Day 7: Recursive Circus](https://adventofcode.com/2017/day/7)
 - [Day 8: I Heard You Like Registers](https://adventofcode.com/2017/day/8)
 - [Day 9: Stream Processing](https://adventofcode.com/2017/day/9)
+- [Day 10: Knot Hash](https://adventofcode.com/2017/day/10)
