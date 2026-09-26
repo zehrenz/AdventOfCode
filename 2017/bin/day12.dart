@@ -32,5 +32,11 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  UnionFindInt uf = UnionFindInt(input.length);
+  for (var key in input.keys) {
+    for (var value in input[key]!) {
+      uf.union(key, value);
+    }
+  }
+  return uf.numSets.toString();
 }
