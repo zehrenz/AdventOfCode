@@ -1,5 +1,7 @@
 // ignore_for_file: dead_code
 
+import 'dart:math' show max;
+
 import 'package:utils/dart_utils.dart';
 
 void main() {
@@ -25,7 +27,13 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  Map<String, int> registers = {input[0].affected: 0};
+  int maxEver = 0;
+  for (var instruction in input) {
+    instruction.runInstruction(registers);
+    maxEver = max(maxEver, registers.values.max());
+  }
+  return maxEver.toString();
 }
 
 // Looks like : "b inc 5 if a >= 1"
