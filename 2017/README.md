@@ -9,3 +9,4 @@
 - [Day 5: A Maze of Twisty Trampolines, All Alike](https://adventofcode.com/2017/day/5)
 - [Day 6: Memory Reallocation](https://adventofcode.com/2017/day/6)
 - [Day 7: Recursive Circus](https://adventofcode.com/2017/day/7)
+- [Day 8: I Heard You Like Registers](https://adventofcode.com/2017/day/8)

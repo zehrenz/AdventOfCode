@@ -185,6 +185,16 @@ extension NumIterableExtras<T extends num> on Iterable<T> {
     if (this.isEmpty) return 0 as T;
     return this.reduce((a, b) => (a + b) as T);
   }
+
+  T max() {
+    if (this.isEmpty) throw Exception("Cannot get max of empty iterable");
+    return this.reduce((a, b) => (a > b ? a : b));
+  }
+
+  T min() {
+    if (this.isEmpty) throw Exception("Cannot get min of empty iterable");
+    return this.reduce((a, b) => (a < b ? a : b));
+  }
 }
 
 extension ListExtras on List<List<dynamic>> {
