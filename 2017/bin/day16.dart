@@ -22,7 +22,40 @@ String solvePart1(InputType input, [int programCount = 16]) {
     programCount,
     (i) => String.fromCharCode('a'.codeUnitAt(0) + i),
   );
-  for (var step in input) {
+  programs = dance(programs, input);
+  return programs.join();
+}
+
+String solvePart2(InputType input, [int programCount = 16]) {
+  var programs = List.generate(
+    programCount,
+    (i) => String.fromCharCode('a'.codeUnitAt(0) + i),
+  );
+  const totalDances = 1000000000;
+  var dancesCompleted = 0;
+  var seen = <String, int>{};
+
+  while (dancesCompleted < totalDances) {
+    var current = programs.join();
+    var previousDance = seen[current];
+    if (previousDance != null) {
+      var cycleLength = dancesCompleted - previousDance;
+      var remaining = (totalDances - dancesCompleted) % cycleLength;
+      for (var i = 0; i < remaining; i++) {
+        programs = dance(programs, input);
+      }
+      return programs.join();
+    }
+    seen[current] = dancesCompleted;
+    programs = dance(programs, input);
+    dancesCompleted++;
+  }
+
+  return programs.join();
+}
+
+List<String> dance(List<String> programs, InputType steps) {
+  for (var step in steps) {
     var (a, b, c) = step;
     switch (a) {
       case 's':
@@ -47,9 +80,5 @@ String solvePart1(InputType input, [int programCount = 16]) {
         break;
     }
   }
-  return programs.join();
-}
-
-String solvePart2(InputType input) {
-  return "";
+  return programs;
 }
