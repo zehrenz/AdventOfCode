@@ -13,6 +13,8 @@ const factorA = 16807;
 const factorB = 48271;
 const divisor = 2147483647;
 const mask16 = 0xFFFF;
+const multipleA = 4;
+const multipleB = 8;
 
 InputType parseInput(String input) {
   var numbers = intMatch
@@ -35,7 +37,14 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  var (a, b) = input;
+  var count = 0;
+  for (var i = 0; i < 5000000; i++) {
+    a = nextValue(a, factorA, multipleA);
+    b = nextValue(b, factorB, multipleB);
+    if (checkLow16(a, b)) count++;
+  }
+  return count.toString();
 }
 
 (int, int) nextPair(int a, int b) {
@@ -46,4 +55,11 @@ String solvePart2(InputType input) {
 
 bool checkLow16(int a, int b) {
   return (a & mask16) == (b & mask16);
+}
+
+int nextValue(int value, int factor, int multiple) {
+  do {
+    value = (value * factor) % divisor;
+  } while (value % multiple != 0);
+  return value;
 }
