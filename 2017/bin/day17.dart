@@ -24,5 +24,15 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  var len = 1;
+  var currentPosition = 0;
+  var valueAfterZero = 0;
+  for (var i = 1; i <= 50000000; i++) {
+    currentPosition = (currentPosition + input) % len + 1;
+    if (currentPosition == 1) {
+      valueAfterZero = i;
+    }
+    len++;
+  }
+  return valueAfterZero.toString();
 }
