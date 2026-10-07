@@ -55,14 +55,16 @@ class Utils {
     } else {
       context = new Path.Context(style: Path.Style.posix);
     }
-    base_dir ??= Path.dirname(Platform.script.toFilePath());
+    base_dir ??=
+        Platform.environment['AOC_BASE_DIR'] ??
+        Path.dirname(Platform.script.toFilePath());
     path = context.join(base_dir, path);
     return context.normalize(path);
   }
 
   static String readToString(path, [base_dir = null]) {
     var contents = File(to_abs_path(path)).readAsStringSync();
-    contents = contents.trim().replaceAll('\r\n', '\n');
+    contents = contents.replaceAll('\r\n', '\n');
     if (contents.isNotEmpty) {
       if (contents.endsWith('\n')) {
         contents = contents.substring(0, contents.length - 1);
