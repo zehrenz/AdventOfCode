@@ -25,19 +25,60 @@ String solvePart1(InputType input) {
 }
 
 String solvePart2(InputType input) {
-  return "";
+  var aToBQueue = <int>[];
+  var bToAQueue = <int>[];
+  var progamA = DuetEngine(
+    input,
+    sendQueue: aToBQueue,
+    receiveQueue: bToAQueue,
+  );
+  var progamB = DuetEngine(
+    input,
+    programId: 1,
+    sendQueue: bToAQueue,
+    receiveQueue: aToBQueue,
+  );
+  while (!progamA.stalled || !progamB.stalled) {
+    progamA.run();
+    progamB.run();
+  }
+  return progamB.sentCount.toString();
 }
 
 typedef Instruction = (String, Object, dynamic);
 
 class DuetEngine {
   int currentIndex = 0;
+  Map<String, int> registers = <String, int>{};
   List<Instruction> instructions;
   int? lastPlayedSound;
-  Map<String, int> registers = <String, int>{};
-  DuetEngine(this.instructions);
+  List<int> _sendQueue;
+  List<int> _receiveQueue;
+  bool revision2;
+  int sentCount = 0;
+  bool stalled = false;
+  bool _waitingForReceive = false;
+
+  DuetEngine(
+    this.instructions, {
+    int programId = 0,
+    List<int>? sendQueue,
+    List<int>? receiveQueue,
+  }) : _sendQueue = sendQueue ?? [],
+       _receiveQueue = receiveQueue ?? [],
+       revision2 = sendQueue != null && receiveQueue != null {
+    if (revision2) {
+      registers['p'] = programId;
+    }
+  }
 
   int? run() {
+    stalled = false;
+    if (_waitingForReceive && _receiveQueue.isEmpty) {
+      stalled = true;
+      return null;
+    }
+    _waitingForReceive = false;
     while (currentIndex >= 0 && currentIndex < instructions.length) {
       var currentInstruction = instructions[currentIndex];
       var xValue = currentInstruction.$2 is int
@@ -50,7 +91,12 @@ class DuetEngine {
           : 0;
       switch (currentInstruction.$1) {
         case "snd":
-          lastPlayedSound = xValue;
+          if (revision2) {
+            _sendQueue.add(xValue);
+            sentCount++;
+          } else {
+            lastPlayedSound = xValue;
+          }
           break;
         case "set":
           registers[currentInstruction.$2 as String] = yValue;
@@ -70,12 +116,22 @@ class DuetEngine {
           }
           break;
         case "rcv":
-          if (xValue != 0) {
+          if (revision2) {
+            if (_receiveQueue.isEmpty) {
+              _waitingForReceive = true;
+              return null;
+            }
+            registers[currentInstruction.$2 as String] = _receiveQueue.removeAt(
+              0,
+            );
+          } else if (xValue != 0) {
             return lastPlayedSound;
           }
           break;
       }
       currentIndex++;
     }
+    stalled = true;
+    return null;
   }
 }
