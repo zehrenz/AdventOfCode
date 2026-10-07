@@ -18,3 +18,4 @@
 - [Day 14: Disk Defragmentation](https://adventofcode.com/2017/day/14)
 - [Day 15: Dueling Generators](https://adventofcode.com/2017/day/15)
 - [Day 16: Permutation Promenade](https://adventofcode.com/2017/day/16)
+- [Day 17: Spinlock](https://adventofcode.com/2017/day/17)
