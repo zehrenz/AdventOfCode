@@ -35,39 +35,73 @@ extension on List<String> {
 
 String solvePart1(InputType input) {
   var (map, start) = input;
-  var currentPos = start;
+  Point? currentPos = start;
   var currentDirection = Point.down;
   var seenLetters = <String>[];
-  while (true) {
-    if (!map.isValid(currentPos)) {
-      break;
+  while (currentPos != null) {
+    var (nextPos, nextDirection, seenLetter) = step(
+      currentPos,
+      currentDirection,
+      map,
+    );
+    if (seenLetter != null) {
+      seenLetters.add(seenLetter);
     }
-    if (map.get(currentPos) == '+') {
-      var isVertical =
-          currentDirection == Point.up || currentDirection == Point.down;
-      var lookLeft = currentPos + currentDirection.rotateCounterClockwise();
-      if (!map.isValid(lookLeft)) {
-        // If left is invalid we must turn right
-        currentDirection = currentDirection.rotateClockwise();
-      } else {
-        if (
-        // If we are vertical and turn left, we can't be on a vertical pipe
-        (isVertical && map.get(lookLeft) != '|') ||
-            // If we are horizontal and turn left, we can't be on a horizontal pipe
-            (!isVertical && map.get(lookLeft) != '-')) {
-          currentDirection = currentDirection.rotateCounterClockwise();
-        } else {
-          currentDirection = currentDirection.rotateClockwise();
-        }
-      }
-    } else if (map.get(currentPos) != '|' && map.get(currentPos) != '-') {
-      seenLetters.add(map.get(currentPos));
-    }
-    currentPos += currentDirection;
+    currentPos = nextPos;
+    currentDirection = nextDirection;
   }
   return seenLetters.join();
 }
 
 String solvePart2(InputType input) {
-  return "";
+  var (map, start) = input;
+  Point currentPos = start;
+  var currentDirection = Point.down;
+  var steps = 0; // Start at 0 to negate the last overstep
+  while (true) {
+    var (nextPos, nextDirection, seenLetter) = step(
+      currentPos,
+      currentDirection,
+      map,
+    );
+    if (nextPos == null) break;
+    steps++;
+    currentPos = nextPos;
+    currentDirection = nextDirection;
+  }
+  return steps.toString();
+}
+
+(Point?, Point, String?) step(
+  Point currentPos,
+  Point currentDirection,
+  List<String> map,
+) {
+  if (!map.isValid(currentPos)) {
+    return (null, currentPos, "");
+  }
+  String? seenLetter;
+  if (map.get(currentPos) == '+') {
+    var isVertical =
+        currentDirection == Point.up || currentDirection == Point.down;
+    var lookLeft = currentPos + currentDirection.rotateCounterClockwise();
+    if (!map.isValid(lookLeft)) {
+      // If left is invalid we must turn right
+      currentDirection = currentDirection.rotateClockwise();
+    } else {
+      if (
+      // If we are vertical and turn left, we can't be on a vertical pipe
+      (isVertical && map.get(lookLeft) != '|') ||
+          // If we are horizontal and turn left, we can't be on a horizontal pipe
+          (!isVertical && map.get(lookLeft) != '-')) {
+        currentDirection = currentDirection.rotateCounterClockwise();
+      } else {
+        currentDirection = currentDirection.rotateClockwise();
+      }
+    }
+  } else if (map.get(currentPos) != '|' && map.get(currentPos) != '-') {
+    seenLetter = map.get(currentPos);
+  }
+  currentPos += currentDirection;
+  return (currentPos, currentDirection, seenLetter);
 }
