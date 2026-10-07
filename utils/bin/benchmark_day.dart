@@ -122,17 +122,33 @@ Future<void> main(List<String> args) async {
     final existingReadme = readmeFile.existsSync()
         ? readmeFile.readAsStringSync()
         : '';
-    final updatedReadme = _upsertDayInRuntimesTable(existingReadme, day, row);
+    final updatedReadme = _upsertDayInRuntimesTable(
+      existingReadme,
+      day,
+      row,
+      runs,
+    );
     readmeFile.writeAsStringSync(updatedReadme);
   }
 }
 
-String _upsertDayInRuntimesTable(String doc, int day, String newRow) {
+String _upsertDayInRuntimesTable(String doc, int day, String newRow, int runs) {
   final runtimesHeader = RegExp(r'^## Runtimes\s*$', multiLine: true);
   final startMatch = runtimesHeader.firstMatch(doc);
 
   if (startMatch == null) {
-    return doc;
+    final separator = doc.isEmpty
+        ? ''
+        : doc.endsWith('\n')
+        ? '\n'
+        : '\n\n';
+    final runWord = runs == 1 ? 'run' : 'runs';
+    return '$doc${separator}## Runtimes\n\n'
+        'The following table has been run as an average of $runs $runWord.\n\n'
+        'Legend: 🟢 < 1ms, 🟡 < 1s, 🔴 >= 1s\n\n'
+        '| Day | Parse | Part 1 | Part 2 | Total |\n'
+        '| --- | ---: | ---: | ---: | ---: |\n'
+        '$newRow\n';
   }
 
   final sectionStart = startMatch.start;
@@ -145,7 +161,12 @@ String _upsertDayInRuntimesTable(String doc, int day, String newRow) {
 
   final before = doc.substring(0, sectionStart);
   final after = doc.substring(sectionEnd);
-  final runtimesSection = doc.substring(sectionStart, sectionEnd);
+  final runtimesSection = doc
+      .substring(sectionStart, sectionEnd)
+      .replaceAll(
+        RegExp(r'^Total year runtime:.*\r?\n\r?\n', multiLine: true),
+        '',
+      );
 
   final lines = runtimesSection.split('\n');
   int separatorIdx = -1;
