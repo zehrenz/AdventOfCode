@@ -21,6 +21,7 @@
 - [Day 17: Spinlock](https://adventofcode.com/2017/day/17)
 - [Day 18: Duet](https://adventofcode.com/2017/day/18)
 - [Day 19: A Series of Tubes](https://adventofcode.com/2017/day/19)
+- [Day 20: Particle Swarm](https://adventofcode.com/2017/day/20)
 
 ## Runtimes
 
